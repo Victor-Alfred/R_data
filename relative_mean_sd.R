@@ -9,7 +9,7 @@ str(c(eye_area, wing_area))
 library(dplyr)
 
 rel_mean_sd <- function(x){
-    library(dplyr)  # call the dplyr library to use the filter/select functions
+    require(dplyr) # call the dplyr library to use the filter,select functions
 
     control_mean <- filter(x, Genotype == "yw") %>% select(mean_area) %>% unlist
     all_means <- select(x, mean_area) %>% unlist
@@ -19,6 +19,16 @@ rel_mean_sd <- function(x){
     out <- data.frame(rel_mean, rel_sd)
     colnames(out) <- c("relative mean", "relative_sd")
     rownames(out) <- x[, 1]
-
+    
     return(out)
 }
+
+# use the rel_mean_sd function to the dataframes, and save the output to csv
+
+rel_eye_area <- rel_mean_sd(eye_area)
+write.csv(rel_eye_area, "rel_eye_area.csv")
+
+rel_wing_area <- rel_mean_sd(wing_area)
+write.csv(rel_wing_area, "rel_wing_area.csv")
+
+
